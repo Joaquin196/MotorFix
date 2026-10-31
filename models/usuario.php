@@ -12,40 +12,49 @@ class Usuario {
         // Le pedimos a nuestra clase Singleton que nos dé la conexión única
         $this->db = Conexion::obtenerInstancia();
     }
-}
 
-// Método para registrar un usuario nuevo con contraseña cifrada en BCrypt
-public function registrar(string $nombre, string $email, string $password, string $rol = 'Cliente'): bool {
-    // Ciframos la contraseña usando BCrypt 
-    $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
-    // Preparamos la consulta SQL con parámetros para que nadie pueda colar una inyección SQL por los formularios
-    $sql = "INSERT INTO usuarios (nombre, email, password, rol) VALUES (:nombre, :email, :password, :rol)";
-    $stmt = $this->db->prepare($sql);
+    // Método para registrar un usuario nuevo con contraseña cifrada en BCrypt
+    public function registrar(string $nombre, string $email, string $password, string $rol = 'Cliente'): bool {
+        // Ciframos la contraseña usando BCrypt 
+        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
-    // Ejecutamos la consulta pasando los valores de forma segura
-    return $stmt->execute([
-        ':nombre'   => $nombre,
-        ':email'    => $email,
-        ':password' => $passwordHash,
-        ':rol'      => $rol
-    ]);
-}
-    
-// Método para buscar un usuario por su email 
-public function obtenerPorEmail(string $email): ?array {
+        // Preparamos la consulta SQL con parámetros para que nadie pueda colar una inyección SQL por los formularios
+        $sql = "INSERT INTO usuarios (nombre, email, password, rol) VALUES (:nombre, :email, :password, :rol)";
+        $stmt = $this->db->prepare($sql);
 
-    // Busca en la tabla el registro que coincida exactamente con el email introducido
-    $sql = "SELECT * FROM usuarios WHERE email = :email LIMIT 1";
-
-    // Recupera los datos de ese usuario en forma de array asociativo
-    $stmt = $this->db->prepare($sql);
-    
-    $stmt->execute([':email' => $email]);
+        // Ejecutamos la consulta pasando los valores de forma segura
+        return $stmt->execute([
+            ':nombre'   => $nombre,
+            ':email'    => $email,
+            ':password' => $passwordHash,
+            ':rol'      => $rol
+        ]);
+    }
         
-    $usuario = $stmt->fetch();
+    // Método para buscar un usuario por su email 
+    public function obtenerPorEmail(string $email): ?array {
 
-    // Si encuentra el usuario, devuelve sus datos, si no, devuelve null
-    return $usuario ? $usuario : null;
+        // Busca en la tabla el registro que coincida exactamente con el email introducido
+        $sql = "SELECT * FROM usuarios WHERE email = :email LIMIT 1";
+
+        // Recupera los datos de ese usuario en forma de array asociativo
+        $stmt = $this->db->prepare($sql);
+        
+        $stmt->execute([':email' => $email]);
+            
+        $usuario = $stmt->fetch();
+
+        // Si encuentra el usuario, devuelve sus datos, si no, devuelve null
+        return $usuario ? $usuario : null;
+    }
+}
+
+// --- PRUEBA RÁPIDA DE CONEXIÓN ---
+try {
+    $userModel = new Usuario();
+    echo "¡Conexión y clase Usuario cargadas correctamente!";
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
 }
     

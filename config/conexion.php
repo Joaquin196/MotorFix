@@ -14,7 +14,7 @@ class Conexion {
     public static function obtenerInstancia(): PDO {
         if (self::$instancia === null) {
             try {
-                $dsn = "mysql:host=" . self::$host . ";dbname=" . self::$db . ";charset=" . self::$charset;
+                $dsn = "mysql:host=" . self::$host . ";port=3307;dbname=" . self::$db . ";charset=" . self::$charset;
                 $opciones = [
                     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
