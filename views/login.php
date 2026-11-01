@@ -2,6 +2,8 @@
 require_once "../controllers/usuario_controller.php";
 
 $mensaje = "";
+// Variable para almacenar el tipo de alerta (éxito o error)
+$tipoAlerta = ""; 
 
 // Verificamos si el formulario ha sido enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -15,8 +17,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($usuario) {
         $mensaje = "¡Login exitoso! Bienvenido, " . $usuario['email'];
+        $tipoAlerta = "alert-success"; 
     } else {
         $mensaje = "Correo o contraseña incorrectos.";
+        $tipoAlerta = "alert-error"; 
     }
 }
 ?>
@@ -25,22 +29,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>MotorFix - Iniciar Sesión</title>
+    <link rel="stylesheet" href="../style/login.css">
 </head>
 <body>
-    <h2>Iniciar Sesión en MotorFix</h2>
-    
-    <?php if($mensaje != ""): ?>
-        <p style="color: blue;"><?php echo $mensaje; ?></p>
-    <?php endif; ?>
+    <div class="auth-container">
+        <h2>MotorFix</h2>
+        <p class="auth-subtitle">Accede a tu panel de control</p>
+        
+        <?php if($mensaje != ""): ?>
+            <div class="alert-message <?php echo $tipoAlerta; ?>">
+                <?php echo $mensaje; ?>
+            </div>
+        <?php endif; ?>
 
-    <form action="login.php" method="POST">
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
-        
-        <label>Contraseña:</label><br>
-        <input type="password" name="password" required><br><br>
-        
-        <button type="submit">Entrar</button>
-    </form>
+        <form action="login.php" method="POST">
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Contraseña:</label>
+                <input type="password" name="password" required>
+            </div>
+            
+            <button type="submit" class="btn-submit">Entrar</button>
+        </form>
+
+        <div class="auth-links">
+            <p>¿No tienes cuenta? <a href="registro.php">Regístrate aquí</a></p>
+        </div>
+    </div>
 </body>
 </html>
