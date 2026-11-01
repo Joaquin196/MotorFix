@@ -48,13 +48,19 @@ class Usuario {
         // Si encuentra el usuario, devuelve sus datos, si no, devuelve null
         return $usuario ? $usuario : null;
     }
+
+    public function registrarUsuario($email, $password) {
+        // Ciframos la contraseña usando BCrypt para mayor seguridad
+        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+        // Preparamos la consulta SQL con parámetros para evitar inyecciones SQL
+        $sql = "INSERT INTO usuarios (email, password) VALUES (:email, :password)";
+        $stmt = $this->db->prepare($sql);
+        // Asignamos los valores a los parámetros de forma segura
+        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+        $stmt->bindParam(":password", $passwordHash, PDO::PARAM_STR);
+        
+        return $stmt->execute();
+    }
 }
 
-// --- PRUEBA RÁPIDA DE CONEXIÓN ---
-try {
-    $userModel = new Usuario();
-    echo "¡Conexión y clase Usuario cargadas correctamente!";
-} catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
-}
     

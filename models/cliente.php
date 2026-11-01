@@ -1,6 +1,6 @@
 <?php
 //Carga obligatoriamente el archivo de conexión.
-require_once_once "../config/conexion.php"; 
+require_once "../config/conexion.php"; 
 
 class Cliente {
     // El interrogante ?PDO significa que puede ser un objeto PDO o puede ser null al principio
@@ -52,7 +52,7 @@ class Cliente {
         // Asignamos el valor del ID de forma segura para evitar inyecciones SQL
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $resultado = $stmt->execute();
-        
+
         // Devolvemos true si se ha eliminado correctamente o false si ha habido algún error
         return $resultado;
     }
