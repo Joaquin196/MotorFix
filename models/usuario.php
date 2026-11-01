@@ -61,6 +61,25 @@ class Usuario {
         
         return $stmt->execute();
     }
+
+    // Método para verificar el login de un usuario
+    public function verificarLogin($email, $password) {
+        // Preparamos la consulta SQL para buscar el usuario por su email
+        $sql = "SELECT * FROM usuarios WHERE email = :email";
+        $stmt = $this->db->prepare($sql);
+        // Asignamos el valor del email de forma segura para evitar inyecciones SQL
+        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+        $stmt->execute();
+        
+        $usuario = $stmt->fetch();
+
+        // Verificamos si el usuario existe y si la contraseña coincide con el hash BCrypt
+        if ($usuario && password_verify($password, $usuario['password'])) {
+            return $usuario; // Retorna los datos del usuario si el login es correcto
+        }
+        
+        return false; // Retorna falso si falla el correo o la contraseña
+    }
 }
 
     

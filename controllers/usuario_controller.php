@@ -11,4 +11,13 @@ class usuario_controller {
         $resultado = $usuarioModel->registrarUsuario($email, $password);
         return $resultado;
     }
+
+    // Método para verificar el login de un usuario
+    public function login($email, $password) {
+        // Instanciamos el modelo Usuario y llamamos al método verificarLogin para comprobar las credenciales del usuario
+        $usuarioModel = new Usuario();
+        // Llamamos al método verificarLogin() del modelo para comprobar las credenciales del usuario
+        $resultado = $usuarioModel->verificarLogin($email, $password);
+        return $resultado;
+    }
 }
