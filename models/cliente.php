@@ -51,8 +51,9 @@ class Cliente {
         $stmt = $this->conexion->prepare($sql);
         // Asignamos el valor del ID de forma segura para evitar inyecciones SQL
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-
-        // Ejecutamos la consulta y devolvemos true si se ha eliminado correctamente o false si ha habido algún error
-        return $stmt->execute();
+        $resultado = $stmt->execute();
+        
+        // Devolvemos true si se ha eliminado correctamente o false si ha habido algún error
+        return $resultado;
     }
 }
