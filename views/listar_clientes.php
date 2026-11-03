@@ -17,7 +17,6 @@ $clientes = $controlador->listar(); // Asegúrate de que tu método de listar de
     <div class="dashboard-container">
         <div class="dashboard-header">
             <h2>Panel de Clientes - MotorFix</h2>
-            <!-- Aquí puedes apuntar al formulario de alta de cliente cuando lo tengas -->
             <a href="#" class="btn-action">+ Nuevo Cliente</a>
         </div>
 
