@@ -37,3 +37,31 @@ class cliente_controller {
         return $resultado;
     }
 }
+
+
+// Puente AJAX para comunicar con el html frontend
+if (isset($_GET['accion'])) {
+    // Establecemos el tipo de contenido como JSON para la respuesta
+    header('Content-Type: application/json; charset=utf-8');
+    $controller = new cliente_controller();
+
+    switch ($_GET['accion']) {
+        case 'listar': // Acción para listar todos los clientes
+            echo json_encode($controller->listar());
+            break;
+        
+        case 'eliminar': // Acción para eliminar un cliente por su ID
+            $id = $_GET['id'] ?? null;
+            if ($id) {
+                echo json_encode(['success' => $controller->borrar($id)]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'ID no proporcionado']);
+            }
+            break;
+
+        default:
+            echo json_encode(['error' => 'Acción no válida']);
+            break;
+    }
+    exit;
+}
