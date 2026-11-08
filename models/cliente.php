@@ -1,5 +1,5 @@
 <?php
-//Carga obligatoriamente el archivo de conexión.
+// Carga obligatoriamente el archivo de conexión.
 require_once "../config/conexion.php"; 
 
 class Cliente {
