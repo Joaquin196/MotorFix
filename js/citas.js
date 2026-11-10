@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const formCrearCita = document.getElementById("formCrearCita");
 
+    // Si el formulario existe en la página, añadimos el listener para el submit
     if (formCrearCita) {
         formCrearCita.addEventListener("submit", async (e) => {
             e.preventDefault(); // Evitamos que recargue la página
@@ -9,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const formData = new FormData(formCrearCita);
 
             try {
-                // Hacemos la petición fetch al controlador indicando la acción 'crear'
+                // Hacemos la petición fetch al controlador indicando la acción crear
                 const response = await fetch("../controllers/cita_controller.php?accion=crear", {
                     method: "POST",
                     body: formData
@@ -17,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const resultado = await response.json();
 
+                // Mostramos un mensaje según el resultado de la operación
                 if (resultado.status === "success") {
                     alert("¡Éxito! " + resultado.message);
                     formCrearCita.reset(); // Limpiamos el formulario
